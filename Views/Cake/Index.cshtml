@@ -1,0 +1,121 @@
+﻿@using CRUD_cakes.Models;
+@model List<Cake>;
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Торты</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+    <link href="css/App.css" rel="stylesheet" />
+</head>
+
+<body>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" colspan="8" class="text-center table-caption">Торты</th>
+            </tr>
+            <tr>
+                <th scope="col">Наименование</th>
+                <th scope="col">Бренд</th>
+                <th scope="col">Вес</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Калорийность</th>
+                <th scope="col">Глютен</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Cake cake in Model)
+            {
+                <tr>
+                    <td id="@("name-" + cake.CakeId)" cope="row">@cake.CakeName</td>
+                    <td id="@("brand-" + cake.CakeId)">@cake.BrandName</td>
+                    <td id="@("weight-" + cake.CakeId)">@cake.Weight г</td>
+                    <td id="@("price-" + cake.CakeId)">@cake.Price руб.</td>
+                    <td id="@("calories-" + cake.CakeId)">@cake.Calories ккал на 100 г</td>
+                    <td id="@("gluten-" + cake.CakeId)">@(cake.Gluten ? "содержится" : "не содержится")</td>
+                    <td><button class="btn btn-outline-primary btn-open-form-update" id="@cake.CakeId">Изменить</button></td>
+                    <td><button class="btn btn-outline-danger btn-open-form-delete" id="@cake.CakeId">Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <button class="btn btn-outline-success btn-open-form-create">Добавить</button>
+    </div>
+
+    <form class="form form-delete" method="POST">
+        <div class="text-end"><button class="btn btn-outline-dark btn-close btn-cancel"></button></div>
+        <p class="text-center">Удаление торта</p>
+        <hr>
+        <p class="text-center">Вы точно хотите удалить данную запись о торте?</p>
+        <input class="form-control" type="hidden" name="id" id="delete-id">
+        <div class="d-flex justify-content-around">
+            <button class="btn btn-outline-dark btn-cancel">Отмена</button>
+            <button type="submit" class="btn btn-outline-danger btn-delete">Да, удалить</button>
+        </div>
+    </form>
+
+    <form class="form form-update" method="POST">
+        <div class="text-end"><button class="btn btn-outline-dark btn-close btn-cancel"></button></div>
+        <p class="text-center">Изменение данных о торте</p>
+        <hr>
+        <input class="form-control" type="hidden" name="id" id="update-id">
+        <br><input class="form-control" type="text" name="cake_name" id="update-name" placeholder="наименование торта" required>
+        <br><input class="form-control" type="text" name="brand" id="update-brand" placeholder="бренд" required>
+        <br><input class="form-control" type="number" name="weight" id="update-weight" placeholder=" вес, г" required>
+        <br><input class="form-control" type="number" name="price" id="update-price" placeholder=" цена, руб." required>
+        <br><input class="form-control" type="number" name="calories" id="update-calories" placeholder=" калорийность на 100г" required>
+        <br>
+        <input class="form-check-input" name="gluten" id="update-gluten-true" type="radio" value="true" />
+        <span>содержит глютен</span>
+        <br>
+        <input class="form-check-input" name="gluten" id="update-gluten-false" type="radio" value="false" />
+        <span>не содержит глютен</span>
+        <br><br>
+        <div class="d-flex justify-content-between">
+            <div>
+                <button type="reset" class="btn btn-outline-dark">Очистить</button>
+            </div>
+            <div>
+                <a class="btn btn-outline-danger btn-cancel">Отмена</a>
+                <button type="submit" class="btn btn-outline-primary">Изменить</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form form-create" method="POST">
+        <div class="text-end"><button class="btn btn-outline-dark btn-close btn-cancel"></button></div>
+        <p class="text-center">Добавление нового торта</p>
+        <hr>
+        <br><input class="form-control" type="text" name="cake_name" size="30" placeholder="наименование торта" required>
+        <br><input class="form-control" type="text" name="brand" size="30" placeholder="бренд" required>
+        <br><input class="form-control" type="number" min="0" name="weight" placeholder="вес, г" required>
+        <br><input class="form-control" type="number" min="0" name="price" placeholder="цена, руб." required>
+        <br><input class="form-control" type="number" min="0" name="calories" placeholder="калорийность на 100г" required>
+        <br>
+        <input class="form-check-input" name="gluten" type="radio" value="true" checked>
+        <span>содержит глютен</span>
+        <br>
+        <input class="form-check-input" name="gluten" type="radio" value="false">
+        <span>не содержит глютен</span>
+        <br><br>
+        <div class="d-flex justify-content-between">
+            <div>
+                <button type="reset" class="btn btn-outline-dark">Очистить</button>
+            </div>
+            <div>
+                <button class="btn btn-outline-danger btn-cancel">Отмена</button>
+                <button type="submit" class="btn btn-outline-success">Добавить</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="js/App.js"></script>
+</body>
+</html>
